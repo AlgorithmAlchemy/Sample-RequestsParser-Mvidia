@@ -626,110 +626,67 @@ def price_parse():
         db.commit()
 
 
-def main():
-    action = int(input(f"\n#################################################"
-                       f"\nWelcome to mvidia parser $creator @ponchikilol$"
-                       f"\nParsing tovar id - 1"
-                       f"\nParsing tovar name - 2"
-                       f"\nParsing tovar price - 3"
-                       f"\nParsing tovar name and price -4"
-                       f"\n\nDelete all data and Parsing all date & convert csv - 5"
-                       f"\n(No drop base date)Parsing all data & convers csv - 55"
-                       f"\nOnly convert data to csv and - 555"
-                       f"\n\nDelete all date - 6"
-                       f"\nDelete id base - 7"
-                       f"\nDelete info base (name/price) - 8"
-                       f"\n\nClose program - 9"
-                       "\nPlease enter num: "))
+def clear_data(tables):
+    """Удаляет все данные из указанных таблиц."""
+    for table in tables:
+        db.execute(f'DELETE FROM {table}')
+    db.commit()
+    print("Delete complete")
+
+def parse_actions(action):
+    """Выполняет действия в зависимости от выбора пользователя."""
     if action == 1:
         parse_id()
-        print("Parsing complete")
     elif action == 2:
         parse_info()
-        print("Parsing complete")
     elif action == 3:
         price_parse()
-        print("Parsing complete")
     elif action == 4:
         parse_info()
         price_parse()
-        print("Parsing complete")
-    elif action == 5:
-        db.execute('''
-        DELETE FROM xboxe_id
-        ''')
-        db.execute('''
-        DELETE FROM playstation_id
-        ''')
-        db.execute('''
-        DELETE FROM nintendo_id
-        ''')
-        db.execute('''
-        DELETE FROM items
-        ''')
-        db.commit()
-
-        print("Delete complete")
+    elif action in (5, 55):
+        if action == 5:
+            clear_data(['xboxe_id', 'playstation_id', 'nintendo_id', 'items'])
         parse_id()
         parse_info()
         price_parse()
-        print("Parsing complete")
         create_exel()
-
-    elif action == 55:
-        parse_id()
-        parse_info()
-        price_parse()
-        print("Parsing complete")
-        create_exel()
-
     elif action == 555:
         create_exel()
-
-    elif action == 6:
-        db.execute('''
-        DELETE FROM xboxe_id
-        ''')
-        db.execute('''
-        DELETE FROM playstation_id
-        ''')
-        db.execute('''
-        DELETE FROM nintendo_id
-        ''')
-        db.execute('''
-        DELETE FROM items
-        ''')
-        db.commit()
-        print("Delete complete")
-
-    elif action == 7:
-        db.execute('''
-        DELETE FROM xboxe_id
-        ''')
-        db.execute('''
-        DELETE FROM playstation_id
-        ''')
-        db.execute('''
-        DELETE FROM nintendo_id
-        ''')
-        db.commit()
-        print("Delete complete")
-
+    elif action in (6, 7):
+        if action == 6:
+            clear_data(['xboxe_id', 'playstation_id', 'nintendo_id', 'items'])
+        else:
+            clear_data(['xboxe_id', 'playstation_id', 'nintendo_id'])
     elif action == 8:
-        db.execute('''
-        DELETE FROM items
-        ''')
+        db.execute('DELETE FROM items')
         db.commit()
         print("Delete complete")
-
     elif action == 9:
         print("bb")
         exit()
     else:
         print("error!")
-        main()
-    main()
 
+def main():
+    tables_to_clear = ['xboxe_id', 'playstation_id', 'nintendo_id', 'items']
+    
+    while True:  # Используем цикл для постоянного запроса действий
+        action = int(input(f"\n#################################################"
+                           f"\nWelcome to mvidia parser $creator @ponchikilol$" 
+                           f"\nParsing tovar id - 1" 
+                           f"\nParsing tovar name - 2" 
+                           f"\nParsing tovar price - 3"
+                           f"\nParsing tovar name and price - 4"
+                           f"\n\nDelete all data and Parsing all date & convert csv - 5"
+                           f"\n(No drop base date)Parsing all data & convers csv - 55"
+                           f"\nOnly convert data to csv - 555"
+                           f"\n\nDelete all date - 6"
+                           f"\nDelete id base - 7"
+                           f"\nDelete info base (name/price) - 8"
+                           f"\n\nClose program - 9"
+                           "\nPlease enter num: "))
 
-if __name__ == '__main__':
-    main()
+        parse_actions(action)  # Выполняем соответствующее действие
+
+main()
