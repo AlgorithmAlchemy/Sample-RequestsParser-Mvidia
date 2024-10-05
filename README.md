@@ -7,7 +7,7 @@
 1. Клонируйте этот репозиторий:
 
    ```bash
-   git clone <url вашего репозитория>
+   git clone <[url вашего репозитория](https://github.com/AlgorithmAlchemy/MvidiaRequestsParser/tree/main)>
 2. Перейдите в директорию проекта:
    ```bash
    cd <имя директории>
