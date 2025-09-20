@@ -1,5 +1,7 @@
 # MVideo Parser
+
    `⭐️ Thanks everyone who has starred the project, it means a lot!`
+   
 Этот проект предназначен для парсинга данных о товарах с сайта MVideo. Он позволяет извлекать идентификаторы товаров, названия и цены, а также сохранять их в базе данных SQLite.
 
 **Read this in other languages:** [English (README.md)](README.md)
