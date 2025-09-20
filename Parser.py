@@ -5,9 +5,8 @@ import requests
 import sqlite3
 import time
 import urllib3
-from googletrans import Translator
 
-urllib3.disable_warnings()  # отключаем предупреждения
+urllib3.disable_warnings()
 
 translator = Translator()
 
@@ -201,7 +200,7 @@ platforms = ['PS4', 'PS5', 'Xbox One', 'Xbox', 'Nintendo Switch', 'Nintendo']
 end_data = []
 
 
-# подгружаем json для сравнения
+# Loading JSON for comparison
 
 def get_games_1c():
     with open('data.json') as f:
@@ -220,7 +219,7 @@ def get_games_1c():
                     games.append(game)
                     break
 
-        return games  # возвращаем словарь
+        return games  # return the dictionary
 
 
 def sort_data():
@@ -233,7 +232,7 @@ def sort_data():
 def create_exel():
     print_count = 0
     count = 0
-    cursor = db.execute(f'''SELECT * FROM items''')  # с бдшки берем все итемы для сравнения
+    cursor = db.execute(f'''SELECT * FROM items''')  # We take all the items from the BD for comparison.
     parse_full_list = {}
     parse_list = []
     for itr in cursor:
@@ -257,7 +256,7 @@ def create_exel():
     high_key = list(parse_full_list.keys())
     high_key = high_key[-1]
 
-    json_game = get_games_1c()  # выгружаем наш json
+    json_game = get_games_1c()  # upload our json
     json_double = []
     count = 0
     for jsg in json_game:
@@ -319,7 +318,7 @@ def create_exel():
         # matches = [match for match in parse_full_list if json_game_name in match]
         matches = []
 
-        for match in parse_full_list:  # сравниваем базу данных скл и жсон
+        for match in parse_full_list:  # Comparing the SKL and JSON databases
             if json_game_name in match:
                 if parse_full_list[match]['type'] == json_game_name_type:
                     end_data.append({'name': json_original_name, 'price_difference':
@@ -334,7 +333,7 @@ def create_exel():
 
         if not matches:
             continue
-        if len(matches) >= 2:  # убрали совпадения с более чем 2 элементам исписка
+        if len(matches) >= 2:  # removed matches with more than 2 elements
             continue
         if matches in json_double:
             continue
@@ -352,14 +351,14 @@ def create_exel():
             writer.writerow([data['name'], data['price_difference']])
 
 
-# проходимся по всем страницам собирая id
-# парсим пс5
+# we go through all the pages collecting the ID
+# we parse the PS5
 def parse_id():
     cnt = 0
     print_count = 0
     table_name = None
     for itr_param in params_id_list:
-        # имя бдшки в зависимости от параметров парсинга
+        # BD name depending on parsing parameters
         if itr_param['categoryId'] == "22780":
             table_name = "playstation_id_ps5"
         elif itr_param['categoryId'] == "4331":
@@ -384,7 +383,7 @@ def parse_id():
 
             response = json.loads(response.text)
 
-            # если всё спарсили выходим из цикла
+            # If everything is parsed, we exit the loop.
             if not response['body']['products']:
                 cnt = 0
                 break
@@ -404,14 +403,14 @@ def parse_id():
             break
 
 
-# парсим название игры
+# parse the game name
 def parse_info():
     print_count = 0
     for tovar_category in bd_names:
 
         print(tovar_category)
 
-        # это мы отправляем юзеру
+        # This is what we send to the user
         json_data = {
             'productIds': [
             ],
@@ -430,7 +429,7 @@ def parse_info():
             'multioffer': False,
         }
 
-        # собираем табличку с id для извлечения инфы
+        # We are collecting a table with IDs to extract information.
         id_listok = []
         cnt = 0
         cursor = db.execute(f'''SELECT * FROM {tovar_category}''')
@@ -447,11 +446,10 @@ def parse_info():
                     response = requests.post('https://www.mvideo.ru/bff/product-details/list', cookies=cookies,
                                              headers=headers, json=json_data)
                 except requests.exceptions.ConnectionError:
-                    time.sleep(30)  # если банят
+                    time.sleep(30)  # if they ban
                     response = requests.post('https://www.mvideo.ru/bff/product-details/list', cookies=cookies,
                                              headers=headers, json=json_data)
 
-                # print(response.text)
                 response = json.loads(response.text)
 
                 cnt = 0
@@ -461,7 +459,7 @@ def parse_info():
                     item_name = item_ifno['name']
                     item_price = None
                     item_id = item_ifno['productId']
-                    # извлекаем истинную товарную категорию для заполнения бд
+                    # We extract the true product category to populate the database.
                     tovar_category = str(item_name)
                     if "Подписка" in item_name:
                         continue
@@ -502,7 +500,7 @@ def parse_info():
             cnt += 1
         json_data['productIds'] = id_listok
 
-        # отправляем остатки
+        # we send the rest
         try:
             response = requests.post('https://www.mvideo.ru/bff/product-details/list', cookies=cookies,
                                      headers=headers, json=json_data)
@@ -511,11 +509,8 @@ def parse_info():
             response = requests.post('https://www.mvideo.ru/bff/product-details/list', cookies=cookies,
                                      headers=headers, json=json_data)
 
-        # print(response.text)
         response = json.loads(response.text)
 
-        cnt = 0
-        id_listok = []
 
         for item_ifno in response['body']['products']:
             item_name = item_ifno['name']
@@ -558,17 +553,16 @@ def parse_info():
                 pass
 
 
-# парсим цену игры
 def price_parse():
     print_count = 0
-    # это мы отправляем юзеру
+    # This is what we send to the user
     params = {
         'productIds': '',
         'addBonusRubles': 'true',
         'isPromoApplied': 'true',
     }
 
-    # собираем табличку с id для извлечения инфы
+    # We are collecting a table with IDs to extract information.
     id_str = ""
     cnt = 0
     cursor = db.execute(f'''SELECT * FROM items''')
@@ -584,11 +578,10 @@ def price_parse():
                 response = requests.get('https://www.mvideo.ru/bff/products/prices', params=params, cookies=cookies,
                                         headers=headers, verify=False)
             except requests.exceptions.ConnectionError:
-                time.sleep(30)  # если банят
+                time.sleep(30)
                 response = requests.get('https://www.mvideo.ru/bff/products/prices', params=params, cookies=cookies,
                                         headers=headers, verify=False)
             response = json.loads(response.text)
-            # print(response)
 
             for item_ifno in response['body']['materialPrices']:
                 item_price = item_ifno['price']['salePrice']
@@ -600,18 +593,17 @@ def price_parse():
             time.sleep(1)
         cnt += 1
 
-    # отправляем остатки
+    # we send the rest
     params['productIds'] = id_str
 
     try:
         response = requests.get('https://www.mvideo.ru/bff/products/prices', params=params, cookies=cookies,
                                 headers=headers, verify=False)
     except requests.exceptions.ConnectionError:
-        time.sleep(30)  # если банят
+        time.sleep(30)
         response = requests.get('https://www.mvideo.ru/bff/products/prices', params=params, cookies=cookies,
                                 headers=headers, verify=False)
     response = json.loads(response.text)
-    # print(response)
 
     for item_ifno in response['body']['materialPrices']:
         item_price = item_ifno['price']['salePrice']
@@ -621,7 +613,6 @@ def price_parse():
 
 
 def clear_data(tables):
-    """Удаляет все данные из указанных таблиц."""
     for table in tables:
         db.execute(f'DELETE FROM {table}')
     db.commit()
@@ -629,7 +620,6 @@ def clear_data(tables):
 
 
 def parse_actions(action):
-    """Выполняет действия в зависимости от выбора пользователя."""
     if action == 1:
         parse_id()
     elif action == 2:
@@ -667,7 +657,7 @@ def parse_actions(action):
 def main():
     tables_to_clear = ['xboxe_id', 'playstation_id', 'nintendo_id', 'items']
 
-    while True:  # Используем цикл для постоянного запроса действий
+    while True:
         action = int(input(f"\n#################################################"
                            f"\nWelcome to mvidia parser $creator @ponchikilol$"
                            f"\nParsing tovar id - 1"
@@ -683,7 +673,7 @@ def main():
                            f"\n\nClose program - 9"
                            "\nPlease enter num: "))
 
-        parse_actions(action)  # Выполняем соответствующее действие
+        parse_actions(action)
 
 
 main()
