@@ -16,7 +16,7 @@
    pip install -r requirements.txt
 
 ### Использование
-Для запуска парсера выполните:
+Для запуска парсера выполните: 
    ```bash
 python Parser.py
 ```
