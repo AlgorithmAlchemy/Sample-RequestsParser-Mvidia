@@ -1,11 +1,11 @@
 import csv
 import json
+import logging
+import requests
 import sqlite3
 import time
-import requests
-from googletrans import Translator
-import logging
 import urllib3
+from googletrans import Translator
 
 urllib3.disable_warnings()  # отключаем предупреждения
 
@@ -17,6 +17,7 @@ logging.basicConfig(level=logging.FATAL)
 db = sqlite3.connect('bd.sqlite')
 connect = db.cursor()
 
+
 # Функция для создания таблиц
 def create_tables(cursor):
     cursor.execute('''
@@ -26,7 +27,7 @@ def create_tables(cursor):
         item_id TEXT,
         UNIQUE (item_id)
     )''')
-    
+
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS playstation_id_ps5 (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -60,6 +61,7 @@ def create_tables(cursor):
         tovar_category TEXT,
         UNIQUE (item_id)
     )''')
+
 
 create_tables(cursor)
 
@@ -221,7 +223,6 @@ def get_games_1c():
         return games  # возвращаем словарь
 
 
-
 def sort_data():
     for i in range(len(end_data) - 1):
         for j in range(i + 1, len(end_data)):
@@ -247,8 +248,6 @@ def create_exel():
             parse_name = str(itr[1]).replace("Игра для", "").replace("Игра ", "").replace("PS4 игра ", "") \
                 .replace("PS5 игра ", "").replace("Xbox игра ", "").replace("Дополнение для игры . ", "") \
                 .replace("Xbox игра ", "").replace("Xbox One игра ", "").strip()
-
-
 
             parse_full_list[parse_name] = {"parse_original_name": parse_name, "type": game_type,
                                            "price": parse_price}
@@ -342,10 +341,7 @@ def create_exel():
         else:
             json_double.append(matches)
 
-
         strin = str(matches[0])
-
-
 
     sort_data()
 
@@ -457,8 +453,6 @@ def parse_info():
 
                 # print(response.text)
                 response = json.loads(response.text)
-
-
 
                 cnt = 0
                 id_listok = []
@@ -633,6 +627,7 @@ def clear_data(tables):
     db.commit()
     print("Delete complete")
 
+
 def parse_actions(action):
     """Выполняет действия в зависимости от выбора пользователя."""
     if action == 1:
@@ -668,14 +663,15 @@ def parse_actions(action):
     else:
         print("error!")
 
+
 def main():
     tables_to_clear = ['xboxe_id', 'playstation_id', 'nintendo_id', 'items']
-    
+
     while True:  # Используем цикл для постоянного запроса действий
         action = int(input(f"\n#################################################"
-                           f"\nWelcome to mvidia parser $creator @ponchikilol$" 
-                           f"\nParsing tovar id - 1" 
-                           f"\nParsing tovar name - 2" 
+                           f"\nWelcome to mvidia parser $creator @ponchikilol$"
+                           f"\nParsing tovar id - 1"
+                           f"\nParsing tovar name - 2"
                            f"\nParsing tovar price - 3"
                            f"\nParsing tovar name and price - 4"
                            f"\n\nDelete all data and Parsing all date & convert csv - 5"
@@ -688,5 +684,6 @@ def main():
                            "\nPlease enter num: "))
 
         parse_actions(action)  # Выполняем соответствующее действие
+
 
 main()
