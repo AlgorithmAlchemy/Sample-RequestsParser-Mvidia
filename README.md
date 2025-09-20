@@ -1,47 +1,55 @@
 # MVideo Parser
 
-Этот проект предназначен для парсинга данных о товарах с сайта MVideo. Он позволяет извлекать идентификаторы товаров, названия и цены, а также сохранять их в базе данных SQLite.
+This project is designed to parse product data from the MVideo website.
+It extracts product IDs, names, and prices, and saves them into an SQLite database.
 
-## Установка
+**Read this in other languages:** [Русский (README\_ru.md)](README_ru.md)
 
-1. Клонируйте этот репозиторий:
+## Installation
+
+1. Clone this repository:
 
    ```bash
-   git clone <https://github.com/AlgorithmAlchemy/MvidiaRequestsParser/tree/main>
-2. Перейдите в директорию проекта:
-   ```bash
-   cd <имя директории>
-3. Установите зависимости:
+   git clone https://github.com/AlgorithmAlchemy/MvidiaRequestsParser.git
+   ```
 
+2. Navigate to the project directory:
+
+   ```bash
+   cd <project-directory>
+   ```
+
+3. Install dependencies:
+
+   ```bash
    pip install -r requirements.txt
+   ```
 
-### Использование
-Для запуска парсера выполните: 
-   ```bash
+## Usage
+
+To run the parser, execute:
+
+```bash
 python Parser.py
 ```
 
+Where `Parser.py` is your main Python script.
 
-Где `Parser.py` — это имя вашего основного Python файла.
+When the program starts, you will be prompted to choose an action:
 
-При запуске программы вам будет предложено выбрать действие:
+* **Parsing tovar id** – parse product IDs
+* **Parsing tovar name** – parse product names
+* **Parsing tovar price** – parse product prices
+* **Parsing tovar name and price** – parse product names and prices
+* **Delete all data and Parsing all data & convert csv** – delete all data, then parse and export to CSV
+* **No drop base data - Parsing all data & convert csv** – parse all data and export to CSV without deleting existing records
+* **Only convert data to csv** – only convert existing data to CSV
+* **Delete all data** – delete all data from the database
+* **Delete id base** – delete only product IDs
+* **Delete info base (name/price)** – delete only product names and prices
+* **Close program** – exit the program
 
-- **Parsing tovar id** - парсинг идентификаторов товаров.
-- **Parsing tovar name** - парсинг названий товаров.
-- **Parsing tovar price** - парсинг цен товаров.
-- **Parsing tovar name and price** - парсинг названий и цен товаров.
-- **Delete all data and Parsing all date & convert csv** - удалить все данные и выполнить парсинг.
-- **No drop base date - Parsing all data & convert csv** - выполнить парсинг без удаления данных.
-- **Only convert data to csv** - только конвертация данных в CSV.
-- **Delete all date** - удалить все данные из базы.
-- **Delete id base** - удалить только идентификаторы.
-- **Delete info base (name/price)** - удалить только информацию о названиях и ценах.
-- **Close program** - закрыть программу.
+## Notes
 
-### Примечания
-
-- Убедитесь, что у вас установлены все необходимые библиотеки из `requirements.txt`.
-- Обязательно проверьте, что ваши куки и заголовки для запросов правильно настроены.
-
- 
- 
+* Ensure all required libraries from `requirements.txt` are installed.
+* Make sure your cookies and request headers are correctly configured.
