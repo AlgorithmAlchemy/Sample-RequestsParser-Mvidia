@@ -1,5 +1,7 @@
 # MVideo Parser
 
+   `⭐️ Thanks everyone who has starred the project, it means a lot!`
+
 This project is designed to parse product data from the MVideo website.
 It extracts product IDs, names, and prices, and saves them into an SQLite database.
 
