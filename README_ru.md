@@ -28,10 +28,10 @@ python Parser.py
 
 При запуске программы вам будет предложено выбрать действие:
 
-- **Parsing tovar id** - парсинг идентификаторов товаров.
-- **Parsing tovar name** - парсинг названий товаров.
-- **Parsing tovar price** - парсинг цен товаров.
-- **Parsing tovar name and price** - парсинг названий и цен товаров.
+- **Parsing id** - парсинг идентификаторов товаров.
+- **Parsing name** - парсинг названий товаров.
+- **Parsing price** - парсинг цен товаров.
+- **Parsing name and price** - парсинг названий и цен товаров.
 - **Delete all data and Parsing all date & convert csv** - удалить все данные и выполнить парсинг.
 - **No drop base date - Parsing all data & convert csv** - выполнить парсинг без удаления данных.
 - **Only convert data to csv** - только конвертация данных в CSV.

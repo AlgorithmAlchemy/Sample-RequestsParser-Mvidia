@@ -37,10 +37,10 @@ Where `Parser.py` is your main Python script.
 
 When the program starts, you will be prompted to choose an action:
 
-* **Parsing tovar id** – parse product IDs
-* **Parsing tovar name** – parse product names
-* **Parsing tovar price** – parse product prices
-* **Parsing tovar name and price** – parse product names and prices
+* **Parsing  id** – parse product IDs
+* **Parsing  name** – parse product names
+* **Parsing  price** – parse product prices
+* **Parsing  name and price** – parse product names and prices
 * **Delete all data and Parsing all data & convert csv** – delete all data, then parse and export to CSV
 * **No drop base data - Parsing all data & convert csv** – parse all data and export to CSV without deleting existing records
 * **Only convert data to csv** – only convert existing data to CSV

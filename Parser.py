@@ -17,7 +17,6 @@ db = sqlite3.connect('bd.sqlite')
 connect = db.cursor()
 
 
-# Функция для создания таблиц
 def create_tables(cursor):
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS xboxe_id (
