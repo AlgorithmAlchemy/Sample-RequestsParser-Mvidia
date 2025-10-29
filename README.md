@@ -29,8 +29,6 @@ It extracts product IDs, names, and prices, and saves them into an SQLite databa
 
 ## Usage
 
-To run the parser, execute:
-
 ```bash
 python Parser.py
 ```
@@ -50,8 +48,3 @@ When the program starts, you will be prompted to choose an action:
 * **Delete id base** – delete only product IDs
 * **Delete info base (name/price)** – delete only product names and prices
 * **Close program** – exit the program
-
-## Notes
-
-* Ensure all required libraries from `requirements.txt` are installed.
-* Make sure your cookies and request headers are correctly configured.
